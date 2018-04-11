@@ -1,0 +1,62 @@
+button.link {
+     background:none!important;
+     color:inherit;
+     border:none; 
+     padding:0!important;
+     font: inherit;
+     text-decoration:underline;
+     cursor: pointer;
+     color: blue    
+}
+
+button:focus.link {
+  outline: none;
+}
+
+.app {
+  text-align: center;
+}
+
+.app-logo {
+  animation: app-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.app-header {
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: white;
+}
+
+.app-intro {
+  font-size: large;
+  text-align: left;
+  margin-left: 100px;
+}
+
+@keyframes app-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.name-input {
+  font-size: 16px;
+  width: 250px;
+  margin: 0 20px;
+}
+
+.item-name {
+  width: 380px;
+  display: inline-block;
+}
+
+.item-btn {
+  margin-right: 25px;
+}
+
+.item-name-input {
+  font-size: 16px;
+  width: 354px;
+  margin-right: 20px;
+}
