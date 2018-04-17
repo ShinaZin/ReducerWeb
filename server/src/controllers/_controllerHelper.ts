@@ -2,12 +2,16 @@ import * as _ from 'lodash';
 import * as Joi from 'joi';
 
 import config from '../config';
+import emailHelper from '../helpers/emailHelper';
 import logger from '../logger';
 
 export default {
     sendData,
     sendFailureMessage,
-    loadSchema
+    loadSchema,
+    sendActivationEmail,
+    sendResetPasswordEmail,
+    getCurrentUser
 };
 
 function sendFailureMessage(error, res) {
@@ -22,9 +26,15 @@ function sendFailureMessage(error, res) {
         status = 'validation error';
     }
 
-    if (statusCode === 500) {
-        //log unexpected errors
-        console.log(error);
+    const mongooseError = _.get(error, 'response.data.error');
+    if (mongooseError) {
+        statusCode = 400;
+        message = `Schema validation error: ${mongooseError}`;
+        status = 'validation error';
+    }
+
+    if (error.isAppError) {
+        message = error.message;
     }
 
     logError(error);
@@ -36,7 +46,8 @@ function sendFailureMessage(error, res) {
 }
 
 function logError(error) {
-    if (error.isValidationError) return;
+    //do not log known AppErrors
+    if (error.isAppError) return;
 
     if (config.isDevLocal) {
         console.log(error);
@@ -53,7 +64,7 @@ function sendData(data, res) {
 }
 
 function loadSchema(data, schema): Promise<any> {
-    let validationOptions = {
+    const validationOptions = {
         stripUnknown: true
     };
 
@@ -68,7 +79,7 @@ function loadSchema(data, schema): Promise<any> {
                 return reject(err);
             }
 
-            let validationMessage = err.details[0].message;
+            const validationMessage = err.details[0].message;
 
             error = new Error('Validation Error');
             error.isValidationError = true;
@@ -77,4 +88,32 @@ function loadSchema(data, schema): Promise<any> {
             return reject(error);
         });
     });
+}
+
+function sendActivationEmail(email, token) {
+    const data = {
+        token,
+        siteRootUrl: config.rootUrl
+    };
+
+    return emailHelper.sendEmailTemplate('activation', data, {
+        to: email,
+        from: config.email.fromNoReply
+    });
+}
+
+function sendResetPasswordEmail(email, token) {
+    const data = {
+        token,
+        siteRootUrl: config.rootUrl
+    };
+
+    return emailHelper.sendEmailTemplate('password_reset', data, {
+        to: email,
+        from: config.email.fromNoReply
+    });
+}
+
+function getCurrentUser(req) {
+    return req.currentUser;
 }

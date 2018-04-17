@@ -1,10 +1,20 @@
-import * as _ from 'lodash';
 import * as fs from 'fs-extra';
+import * as _ from 'lodash';
 
 import pathHelper from './helpers/pathHelper';
+import { EmailOptions } from 'joi';
+
+interface Config {
+    port: number,
+    isDevLocal: boolean,
+    appVersion: string,
+    rootUrl?: string,
+    email?: any,
+    auth?: any
+}
 
 let logConfig = true;
-let config = {
+let config: Config = {
     port: 5000,
     isDevLocal: process.env.NODE_ENV !== 'production',
     appVersion: '0.0.1'
