@@ -6,11 +6,11 @@ shrinkwrap.yaml
 node_modules
 
 # testing
-/coverage
+**/coverage
 
 # production
-/deploy
-/build
+**/deploy/*
+**/build/*
 
 # misc
 .DS_Store

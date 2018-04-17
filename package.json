@@ -5,6 +5,7 @@
   "scripts": {
     "server": "cd server && npm start",
     "client": "cd client && npm start",
-    "start": "concurrently \"npm run server\" \"npm run client\" --names \"server,client\""
+    "start": "concurrently \"npm run server\" \"npm run client\" --names \"server,client\"",
+    "deploy": "napp deploy -t heroku -i dev --heroku-app simple-react && rm -rf client/build/"
   }
 }
