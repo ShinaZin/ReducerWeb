@@ -1,14 +1,12 @@
-import toastr from 'toastr';
-
 export default {
     get: httpGet,
     post: httpPost,
     patch: httpPatch,
     put: httpPut,
     delete: httpDelete
-}
+};
 
-function httpGet(url, queryParams) {
+function httpGet(url: string, queryParams?: any) {
     let fetchData = fetch(`${url}${getQueryString(queryParams)}`, {
         credentials: 'same-origin',
         headers: new Headers({
@@ -20,7 +18,7 @@ function httpGet(url, queryParams) {
     return processRequest(fetchData);
 }
 
-function httpPost(url, data) {
+function httpPost(url: string, data: object) {
     let request = new Request(url, {
         headers: new Headers({
             'Content-Type': 'application/json'
@@ -33,7 +31,7 @@ function httpPost(url, data) {
     return processRequest(fetch(request));
 }
 
-function httpPut(url, data) {
+function httpPut(url: string, data: object) {
     let request = new Request(url, {
         headers: new Headers({
             'Content-Type': 'application/json'
@@ -46,7 +44,7 @@ function httpPut(url, data) {
     return processRequest(fetch(request));
 }
 
-function httpPatch(url, data) {
+function httpPatch(url: string, data: object) {
     let request = new Request(url, {
         headers: new Headers({
             'Content-Type': 'application/json'
@@ -59,7 +57,7 @@ function httpPatch(url, data) {
     return processRequest(fetch(request));
 }
 
-async function httpDelete(url, data) {
+async function httpDelete(url: string, data?: object) {
     let fetchData = fetch(url, {
         headers: new Headers({
             'Content-Type': 'application/json'
@@ -72,7 +70,7 @@ async function httpDelete(url, data) {
     return processRequest(fetchData);
 }
 
-async function processRequest(fetchRequest) {
+async function processRequest(fetchRequest: any) {
     try {
         let response = await fetchRequest;
 
@@ -91,20 +89,20 @@ async function processRequest(fetchRequest) {
 
         return result.data;
     } catch (err) {
-        toastr.error(err);
+        console.error(err);
 
         throw new Error('API Request Error');
     }
 }
 
-function checkResult(result) {
+function checkResult(result: {status: string, message: string}) {
     if (result.status === 'error' || result.status === 'validation error') {
         throw new Error(result.message);
     }
 }
 
-function getQueryString(params) {
-    if (!params || !Object.keys(params).length) return '';
+function getQueryString(params: object) {
+    if (!params || !Object.keys(params).length) { return ''; }
 
     const esc = encodeURIComponent;
 
