@@ -1,4 +1,3 @@
-import './App.css';
 import 'metro-dist/css/metro-icons.min.css';
 import 'metro-dist/css/metro-responsive.min.css';
 import 'metro-dist/css/metro-schemes.min.css';
