@@ -2,5 +2,9 @@
   "name": "simple-react",
   "version": "0.1.0",
   "private": true,
-  "scripts": {}
+  "scripts": {
+    "server": "cd server && npm start",
+    "client": "cd client && npm start",
+    "start": "concurrently \"npm run server\" \"npm run client\" --names \"server,client\""
+  }
 }

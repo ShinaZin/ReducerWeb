@@ -1,12 +1,11 @@
 button.link {
      background:none!important;
-     color:inherit;
-     border:none; 
-     padding:0!important;
+     border: 1;
+     border-color: darkturquoise; 
+     padding:5!important;
      font: inherit;
-     text-decoration:underline;
      cursor: pointer;
-     color: blue    
+     color: darkturquoise;
 }
 
 button:focus.link {

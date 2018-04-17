@@ -2,9 +2,10 @@
   "name": "server",
   "version": "0.0.0",
   "private": true,
-  "scripts": {},
-  "globalDependencies": {
-    "typescript": "2.2.1"
+  "scripts": {
+    "dev:watch": "nodemon --watch 'src/**/*.ts' --ignore 'src/**/*.spec.ts' --exec ts-node src/index.ts",
+    "dev": "ts-node src/index.ts",
+    "start": "npm run dev:watch"
   },
   "dependencies": {
     "body-parser": "1.17.1",
