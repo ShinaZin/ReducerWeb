@@ -1,8 +1,8 @@
-import * as _ from 'lodash';
 import * as crypto from 'crypto';
+import * as _ from 'lodash';
 
-import db from '../database/database';
 import AppError from '../appError';
+import db from '../database/database';
 
 export default {
   getUserByEmail,

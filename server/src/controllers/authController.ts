@@ -20,8 +20,8 @@ export default {
 async function signUpPost(req, res) {
   try {
     const userData = await helper.loadSchema(req.body, {
-      firstName: Joi.string().required(),
-      lastName: Joi.string().required(),
+      // firstName: Joi.string().required(),
+      // lastName: Joi.string().required(),
       email: Joi.string()
         .email()
         .required(),
