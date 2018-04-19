@@ -19,6 +19,11 @@ interface EmailOptions {
   html?: string;
 }
 
+interface EmailData {
+  siteRootUrl: string,
+  token: string
+}
+
 function getEmailTransport() {
   let transportOptions = {
     service: 'gmail',
@@ -43,7 +48,7 @@ function getEmailTransport() {
   return nodemailer.createTransport(transportOptions);
 }
 
-async function sendEmailTemplate(templateName: string, emailData: Object, emailOptions: EmailOptions) {
+async function sendEmailTemplate(templateName: string, emailData: EmailData, emailOptions: EmailOptions) {
   try {
     const response = await renderTemplate(templateName, emailData);
 
@@ -57,11 +62,11 @@ async function sendEmailTemplate(templateName: string, emailData: Object, emailO
       await sendEmail(emailOptions);
     }
   } catch (err) {
-    console.log('Cannot render email template');
+    console.log(err+'\nCannot render email template');
   }
 }
 
-async function renderTemplate(name: string, data: Object): Promise<any> {
+async function renderTemplate(name: string, data: EmailData): Promise<any> {
   const result = {
     body: null,
     subject: null
@@ -98,7 +103,7 @@ function sendEmail(emailData: EmailOptions): Promise<Object> {
 
 async function sendStubEmail(mailOptions) {
   try {
-    const {from, to, subject, html} = mailOptions;
+    const { from, to, subject, html } = mailOptions;
 
     const nowDateStr = dateFns.format(new Date(), 'YYYY-MM-DD_HH-mm-ss-x');
     const fileName = `${nowDateStr}_${to}_${subject}.html`;
@@ -110,7 +115,8 @@ async function sendStubEmail(mailOptions) {
     const filePath = pathHelper.getLocalRelative('./emails', fileName);
 
     fs.writeFileSync(filePath, html);
+    console.log(`Auth token: \n${(<string>html).match(/(\")(.*)(\")/)[2] as string}`);
   } catch (err) {
-    console.log('Cannot send stub email.');
+    console.log(err+'\nCannot send stub email.');
   }
 }
