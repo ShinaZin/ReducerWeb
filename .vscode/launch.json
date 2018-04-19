@@ -24,16 +24,6 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Seed Data",
-      "program": "${workspaceRoot}/server/src/index.ts",
-      "args": ["run", "seed"],
-      "sourceMaps": true,
-      "outFiles": ["${workspaceRoot}/server/build/src/**/*"],
-      "preLaunchTask": "compile_ts"
-    },
-    {
-      "type": "node",
-      "request": "launch",
       "name": "Quick Test",
       "program": "${workspaceRoot}/server/src/test.ts",
       "sourceMaps": true,

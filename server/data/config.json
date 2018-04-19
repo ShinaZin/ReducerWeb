@@ -5,7 +5,7 @@
     "jwtKey": "override_in_local_config_!!!"
   },
   "db": {
-    "name": "expense_manager",
+    "name": "reducer",
     "username": "",
     "password": ""
   },
