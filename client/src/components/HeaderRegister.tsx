@@ -1,6 +1,6 @@
-import * as $ from 'jquery';
 import * as React from 'react';
 import authService from '../services/authService';
+import * as Metro from '../helpers/metroHelper';
 
 let form: {
     email: HTMLInputElement,
@@ -10,22 +10,14 @@ let form: {
 
 function notifyOnErrorInput(input: any): any {
     const message = input.data('validateHint');
-    ($ as any).Notify({
-        caption: 'Error',
-        content: message,
-        type: 'alert'
-    });
+    Metro.notify('Error', message, 'alert');
 }
 
-async function submit() {
+async function submitRegster() {
     const { password, confirmPassword, email } = form;
     if (password.value && confirmPassword.value &&
         password.value !== confirmPassword.value) {
-        ($ as any).Notify({
-            caption: 'Error',
-            content: 'Пароли не совпадают!',
-            type: 'alert'
-        });
+        Metro.notify('Error', 'Пароли не совпадают!', 'alert');
         return;
     }
     const user = {
@@ -33,7 +25,7 @@ async function submit() {
         confirmPassword: confirmPassword.value,
         email: email.value
     };
-    
+
     let response = await authService.signUp(user);
 
 }
@@ -43,7 +35,7 @@ export default class HeaderRegister extends React.Component {
         super(props);
         const globalscope = (window) as any;
         globalscope.notifyOnErrorInput = notifyOnErrorInput;
-        globalscope.submit = submit;
+        globalscope.submitRegster = submitRegster;
     }
 
     render() {
@@ -64,7 +56,7 @@ export default class HeaderRegister extends React.Component {
                             data-on-error-input="notifyOnErrorInput"
                             data-show-error-hint="false"
                             data-show-required-state="false"
-                            data-on-submit="submit"
+                            data-on-submit="submitRegster"
                             action={'javascript:void(0)'}
                         >
                             <h4 className="text-light">Регистрация</h4>

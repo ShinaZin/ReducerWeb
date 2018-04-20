@@ -104,7 +104,7 @@ async function loginPost(req, res) {
 
 async function activate(req, res) {
   try {
-    let data = {};
+    let data: { message: string, status: string } = {} as any;
 
     const token = req.params.token;
 

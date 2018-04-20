@@ -1,3 +1,7 @@
+import axios from 'axios';
+
+import authService from '../services/authService';
+
 export default {
     get: httpGet,
     post: httpPost,
@@ -7,101 +11,67 @@ export default {
 };
 
 function httpGet(url: string, queryParams?: any) {
-    let fetchData = fetch(`${url}${getQueryString(queryParams)}`, {
-        credentials: 'same-origin',
-        headers: new Headers({
-            'pragma': 'no-cache',
-            'cache-control': 'no-cache'
-        }),
-    });
+    let axiosData = axios.get(`${url}${getQueryString(queryParams)}`, getDefaultRequestOptions());
 
-    return processRequest(fetchData);
+    return processRequest(axiosData);
 }
 
-function httpPost(url: string, data: object) {
-    let request = new Request(url, {
-        headers: new Headers({
-            'Content-Type': 'application/json'
-        }),
-        credentials: 'same-origin',
-        method: 'POST',
-        body: JSON.stringify(data)
-    });
+function httpPost(url: string, data: any) {
+    let request = axios.post(url, JSON.stringify(data), getDefaultRequestOptions());
 
-    return processRequest(fetch(request));
+    return processRequest(request);
 }
 
-function httpPut(url: string, data: object) {
-    let request = new Request(url, {
-        headers: new Headers({
-            'Content-Type': 'application/json'
-        }),
-        credentials: 'same-origin',
-        method: 'PUT',
-        body: JSON.stringify(data)
-    });
+function httpPut(url: string, data: any) {
+    let request = axios.put(url, JSON.stringify(data), getDefaultRequestOptions());
 
-    return processRequest(fetch(request));
+    return processRequest(request);
 }
 
-function httpPatch(url: string, data: object) {
-    let request = new Request(url, {
-        headers: new Headers({
-            'Content-Type': 'application/json'
-        }),
-        credentials: 'same-origin',
-        method: 'PATCH',
-        body: JSON.stringify(data)
-    });
+function httpPatch(url: string, data: any) {
+    let request = axios.patch(url, JSON.stringify(data), getDefaultRequestOptions());
 
-    return processRequest(fetch(request));
+    return processRequest(request);
 }
 
-async function httpDelete(url: string, data?: object) {
-    let fetchData = fetch(url, {
-        headers: new Headers({
-            'Content-Type': 'application/json'
-        }),
-        credentials: 'same-origin',
-        method: 'DELETE',
-        body: JSON.stringify(data)
-    });
+async function httpDelete(url: string) {
+    let request = axios.delete(url, getDefaultRequestOptions());
 
-    return processRequest(fetchData);
+    return processRequest(request);
 }
 
-async function processRequest(fetchRequest: any) {
+async function processRequest(axiosRequest: any) {
     try {
-        let response = await fetchRequest;
+        let response = await axiosRequest;
 
-        if (!response.ok) {
-            if (response.status === 400 || response.status === 500) {
-                let responseJson = await response.json();
-                throw new Error(responseJson.message);
+        // if OK return
+        if (response.status === 200) { return response.data.data; }
+
+        let status = response.status;
+
+        if (status === 401 || status === 403) {
+            if (!window.location.toString().endsWith('/login')) {
+                window.location.href = '/login'; // =
             }
-
-            throw new Error(`Invalid HTTP response status ${response.status}`);
+            return;
         }
 
-        let result = await response.json();
+        if (status === 400 || status === 500) {
+            let responseData = response.data;
 
-        checkResult(result);
+            if (responseData && responseData.message) {
+                throw new Error(responseData.message);
+            }
+        }
 
-        return result.data;
+        throw new Error(`Invalid HTTP response status ${status}`);
     } catch (err) {
-        console.error(err);
-
-        throw new Error('API Request Error');
+        // toastr.error(err);
+        console.log(err);
     }
 }
 
-function checkResult(result: {status: string, message: string}) {
-    if (result.status === 'error' || result.status === 'validation error') {
-        throw new Error(result.message);
-    }
-}
-
-function getQueryString(params: object) {
+function getQueryString(params: string) {
     if (!params || !Object.keys(params).length) { return ''; }
 
     const esc = encodeURIComponent;
@@ -113,4 +83,22 @@ function getQueryString(params: object) {
         .join('&');
 
     return query;
+}
+
+function getDefaultRequestOptions() {
+    return {
+        headers: {
+            pragma: 'no-cache',
+            'Content-Type': 'application/json',
+            Authorization: getAuthHeader()
+        },
+        validateStatus: (status: any) => true,
+        credentials: 'same-origin'
+    };
+}
+
+function getAuthHeader() {
+    let jwt = authService.getToken();
+
+    return `Bearer ${jwt}`;
 }
