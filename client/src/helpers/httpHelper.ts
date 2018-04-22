@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 import authService from '../services/authService';
+import { Metro } from './metroHelper';
 
 export default {
     get: httpGet,
@@ -11,25 +12,40 @@ export default {
 };
 
 function httpGet(url: string, queryParams?: any) {
-    let axiosData = axios.get(`${url}${getQueryString(queryParams)}`, getDefaultRequestOptions());
+    let axiosData = axios.get(
+        `${url}${getQueryString(queryParams)}`,
+        getDefaultRequestOptions()
+    );
 
     return processRequest(axiosData);
 }
 
 function httpPost(url: string, data: any) {
-    let request = axios.post(url, JSON.stringify(data), getDefaultRequestOptions());
+    let request = axios.post(
+        url,
+        JSON.stringify(data),
+        getDefaultRequestOptions()
+    );
 
     return processRequest(request);
 }
 
 function httpPut(url: string, data: any) {
-    let request = axios.put(url, JSON.stringify(data), getDefaultRequestOptions());
+    let request = axios.put(
+        url,
+        JSON.stringify(data),
+        getDefaultRequestOptions()
+    );
 
     return processRequest(request);
 }
 
 function httpPatch(url: string, data: any) {
-    let request = axios.patch(url, JSON.stringify(data), getDefaultRequestOptions());
+    let request = axios.patch(
+        url,
+        JSON.stringify(data),
+        getDefaultRequestOptions()
+    );
 
     return processRequest(request);
 }
@@ -45,7 +61,9 @@ async function processRequest(axiosRequest: any) {
         let response = await axiosRequest;
 
         // if OK return
-        if (response.status === 200) { return response.data.data; }
+        if (response.status === 200) {
+            return response.data.data;
+        }
 
         let status = response.status;
 
@@ -66,13 +84,15 @@ async function processRequest(axiosRequest: any) {
 
         throw new Error(`Invalid HTTP response status ${status}`);
     } catch (err) {
-        // toastr.error(err);
-        console.log(err);
+        const { message = 'unknown error' } = err;
+        Metro.notify('Error', message, 'alert');
     }
 }
 
 function getQueryString(params: string) {
-    if (!params || !Object.keys(params).length) { return ''; }
+    if (!params || !Object.keys(params).length) {
+        return '';
+    }
 
     const esc = encodeURIComponent;
 

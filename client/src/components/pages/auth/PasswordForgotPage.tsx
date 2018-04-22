@@ -1,84 +1,88 @@
 import * as React from 'react';
-import { bindActionCreators } from 'redux';
-import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
+import { Link, RouteComponentProps } from 'react-router-dom';
 
-// import TextInput from '../common/TextInput';
-// import * as userActions from '../../actions/userActions';
-
-interface PasswordForgotPageProps extends RouteComponentProps<any>, React.Props<any> {
-  actions: any;
+interface PasswordForgotPageProps
+    extends RouteComponentProps<any>,
+        React.Props<any> {
+    actions: any;
 }
 
 interface PasswordForgotState {
-  email: string;
-  errors: any;
+    email: string;
+    errors: any;
 }
 
-class PasswordForgotPage extends React.Component<PasswordForgotPageProps, PasswordForgotState> {
-  constructor(props: any) {
-    super(props);
+class PasswordForgotPage extends React.Component<
+    PasswordForgotPageProps,
+    PasswordForgotState
+> {
+    constructor(props: any) {
+        super(props);
 
-    this.state = {
-      email: '',
-      errors: {}
-    };
-
-  }
-
-  onChange = (field: any, value: any) => {
-    return this.setState({ email: value });
-  }
-
-  forgotFormIsValid() {
-    let errors: any = {};
-
-    if (!this.state.email) {
-      errors.email = 'Email field is required.';
-    } else if (!this.isValidEmail(this.state.email)) {
-      errors.email = 'Email is not valid.';
+        this.state = {
+            email: '',
+            errors: {}
+        };
     }
 
-    this.setState({ errors: errors });
+    onChange = (field: any, value: any) => {
+        return this.setState({ email: value });
+    };
 
-    return Object.keys(errors).length === 0;
-  }
+    forgotFormIsValid() {
+        let errors: any = {};
 
-  isValidEmail(email: string) {
-    let re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
-    return re.test(email);
-  }
+        if (!this.state.email) {
+            errors.email = 'Email field is required.';
+        } else if (!this.isValidEmail(this.state.email)) {
+            errors.email = 'Email is not valid.';
+        }
 
-  async resetPassword() {
-    if (!this.forgotFormIsValid()) return;
+        this.setState({ errors: errors });
 
-    await this.props.actions.forgotPassword(this.state.email);
-  }
+        return Object.keys(errors).length === 0;
+    }
 
-  render() {
-    return (
-      <div className="container">
-        <div className="col-xs-12 col-sm-6 col-sm-offset-3">
-          <h1>Reset Password</h1>
+    isValidEmail(email: string) {
+        let re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+        return re.test(email);
+    }
 
-          <input
-            value={this.state.email}
-            // onChange={this.onChange}
-            placeholder="Email"
-            // error={this.state.errors.email}
-          />
+    async resetPassword() {
+        if (!this.forgotFormIsValid()) {
+            return;
+        }
 
-          <button className="btn btn-warning btn-lg" onClick={this.resetPassword}>
-            Reset Password
-          </button>
+        await this.props.actions.forgotPassword(this.state.email);
+    }
 
-          <hr />
+    render() {
+        return (
+            <div className="container">
+                <div className="col-xs-12 col-sm-6 col-sm-offset-3">
+                    <h1>Reset Password</h1>
 
-          <p>
-            Already have an account? <Link to="/login">Login</Link>
-          </p>
-        </div>
-      </div>
-    );
-  }
+                    <input
+                        value={this.state.email}
+                        // onChange={this.onChange}
+                        placeholder="Email"
+                        // error={this.state.errors.email}
+                    />
+
+                    <button
+                        className="btn btn-warning btn-lg"
+                        onClick={this.resetPassword}
+                    >
+                        Reset Password
+                    </button>
+
+                    <hr />
+
+                    <p>
+                        Already have an account? <Link to="/login">Login</Link>
+                    </p>
+                </div>
+            </div>
+        );
+    }
 }
-
