@@ -1,4 +1,3 @@
-import './App.css';
 import 'metro-dist/css/metro-icons.min.css';
 import 'metro-dist/css/metro-responsive.min.css';
 import 'metro-dist/css/metro-schemes.min.css';
@@ -11,6 +10,7 @@ import { Route, Switch } from 'react-router';
 import Header from './components/Header';
 import MainPage from './components/pages/MainPage';
 import SettingsPage from './components/pages/SettingsPage';
+import ActivationPage from './components/pages/auth/ActivationPage';
 
 export default class App extends React.Component {
 
@@ -22,6 +22,12 @@ export default class App extends React.Component {
                     <Switch>
                         <Route exact path="/" component={MainPage} />
                         <Route exact path="/settings" component={SettingsPage} />
+                        <Route
+                            path="/activate/:token"
+                            component={(props: any) => (
+                                <ActivationPage {...props} />
+                            )}
+                        />
                     </Switch>
                 </main>
             </div>

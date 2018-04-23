@@ -17,6 +17,7 @@ function addJsonFile(config, path, required = false) {
     _.merge(config, fileJson);
   } catch (err) {
     if (required) {
+      console.error(err);
       throw new Error(`Cannot read config file from ${path}`);
     }
   }

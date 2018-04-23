@@ -1,8 +1,8 @@
-import * as _ from 'lodash';
 import * as crypto from 'crypto';
+import * as _ from 'lodash';
 
-import db from '../database/database';
 import AppError from '../appError';
+import db from '../database/database';
 
 export default {
   getUserByEmail,
@@ -42,8 +42,8 @@ async function saveLocalAccount(user, userData) {
 
   const localProfile: any = {};
 
-  localProfile.firstName = userData.firstName;
-  localProfile.lastName = userData.lastName;
+  // localProfile.firstName = userData.firstName;
+  // localProfile.lastName = userData.lastName;
   localProfile.email = userData.email;
   localProfile.password = new User().generateHash(userData.password);
 

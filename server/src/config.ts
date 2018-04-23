@@ -1,8 +1,5 @@
-import * as fs from 'fs-extra';
-import * as _ from 'lodash';
-
+import configBuilder from './helpers/configHelper';
 import pathHelper from './helpers/pathHelper';
-import { EmailOptions } from 'joi';
 
 interface Config {
     port: number,
@@ -10,33 +7,75 @@ interface Config {
     appVersion: string,
     rootUrl?: string,
     email?: any,
-    auth?: any
+    auth?: any,
+    db?: {
+        username: string,
+        password: string,
+        host: string,
+        port: number,
+        name: string,
+        timeout: number,
+        seedOnStart?: boolean
+    }
 }
 
 let logConfig = true;
 let config: Config = {
     port: 5000,
     isDevLocal: process.env.NODE_ENV !== 'production',
-    appVersion: '0.0.1'
+    appVersion: '0.0.1',
+    rootUrl: 'http://localhost:3000',
+    auth: {
+        jwtKey: '',
+        expiry: 60 * 60 * 2
+    },
+    db: {
+        host: 'localhost',
+        port: 27017,
+        name: 'reducer',
+        username: '',
+        password: '',
+        timeout: 5000,
+        seedOnStart: false
+    },
+    email: {
+        useStubs: false,
+        sendGridKey: '',
+        auth: {
+            user: '',
+            password: ''
+        },
+        fromNoReply: 'noreply@buildapp.com'
+    }
 };
 
-function tryReadConfigFile(path) {
-    try {
-        return fs.readJsonSync(path);
-    } catch (err) {
-        return {};
+//define ENV VARs which override all other values if defined
+const envVars = {
+    rootUrl: 'ROOT_URL',
+    auth: {
+        jwtKey: 'JWT_KEY'
+    },
+    db: {
+        host: 'DB_HOST',
+        port: 'DB_PORT',
+        name: 'DB_NAME',
+        username: 'DB_USER',
+        password: 'DB_PASSWORD',
+        seedOnStart: 'DB_SEED_ON_START'
+    },
+    email: {
+        sendGridKey: 'SENDGRID_KEY'
     }
-}
+};
 
-let defaultFile = tryReadConfigFile(pathHelper.getDataRelative('config.json'));
-_.merge(config, defaultFile);
+configBuilder.addJsonFile(config, pathHelper.getDataRelative('config.json'), true);
 
-let localFile = tryReadConfigFile(pathHelper.getLocalRelative('config.local.json'));
-_.merge(config, localFile);
+configBuilder.addJsonFile(config, pathHelper.getLocalRelative('config.local.json'));
 
-if (logConfig) {
-    console.log('App configuration:');
-    console.log(JSON.stringify(config, null, 2));
+configBuilder.loadEnvVars(config, envVars);
+
+if (config.isDevLocal) {
+    configBuilder.printConfig(config);
 }
 
 export default config;

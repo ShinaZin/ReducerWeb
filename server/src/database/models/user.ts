@@ -9,14 +9,6 @@ const schema = new mongoose.Schema({
   },
   profile: {
     local: {
-      firstName: {
-        type: String,
-        required: true
-      },
-      lastName: {
-        type: String,
-        required: true
-      },
       password: {
         type: String,
         required: true
@@ -50,7 +42,7 @@ const schema = new mongoose.Schema({
 
 // generating a hash
 schema.methods.generateHash = password => {
-  return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+  return bcrypt.hashSync(password, bcrypt.genSaltSync(8));
 };
 
 module.exports = mongoose.model('User', schema);

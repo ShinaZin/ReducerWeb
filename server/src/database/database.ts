@@ -6,8 +6,6 @@ import logger from '../logger';
 const db = null;
 const models = {
   User: null,
-  Record: null,
-  Category: null
 };
 
 export default {

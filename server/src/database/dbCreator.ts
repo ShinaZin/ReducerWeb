@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 
 import db from './database';
-import seeder from './seeders/seederDefault';
+// import seeder from './seeders/seederDefault';
 import config from '../config';
 import {error} from 'util';
 
@@ -13,7 +13,7 @@ async function createDb() {
   try {
     await db.init();
 
-    await seeder.seedData(db);
+    // await seeder.seedData(db);
 
     console.log('DB was seeded!');
   } catch (err) {

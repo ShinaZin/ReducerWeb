@@ -9,16 +9,16 @@ export default {
 
 function initRoutes(app) {
     helper.init(app);
-    initApiRoutes(app);
+    initApiRoutes(helper);
     initAuthRoutes(helper);
     //all other routes are rendered as home (for client side routing)
     helper.get('*', homeController.home, { auth: false });
 }
 
-function initApiRoutes(app) {
+function initApiRoutes(helper) {
     helper.get('/api/settings', apiController.getSettings);
-    helper.post('/api/settings', apiController.saveSettings);
     helper.get('/api/current-user', apiController.currentUser);
+    helper.post('/api/settings', apiController.saveSettings);
 }
 
 function initAuthRoutes(helper) {
