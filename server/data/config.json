@@ -4,9 +4,11 @@
     "jwtKey": "override_in_local_config_!!!"
   },
   "db": {
+    "host": "ds014578.mlab.com",
+    "port": 14578,
     "name": "reducer",
-    "username": "",
-    "password": ""
+    "username": "admin",
+    "password": "re_Obyf11"
   },
   "email": {
     "useStubs": true,
