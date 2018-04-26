@@ -16,7 +16,7 @@ export default class SettingsPage extends React.Component {
     }
 
     handleOptionsChange = (op: OptionsParams) => {
-        console.log(op);
+        // console.log(op);
     };
 
     render() {
