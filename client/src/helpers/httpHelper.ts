@@ -69,7 +69,7 @@ async function processRequest(axiosRequest: any) {
 
         if (status === 401 || status === 403) {
             // console.log(window.location);
-            if (window.location.pathname.startsWith('/activate') ){
+            if (window.location.pathname.startsWith('/activate') ) {
                 return;
             }
             if (window.location.pathname !== '/') {
