@@ -40,13 +40,12 @@ export default class Header extends React.Component<{}, HeaderState> {
         return (
             <header className="app-bar darcula" data-role="appbar">
                 <Link to="/" className="app-bar-element text-bold">
-                    REDU
-                    <span className="icon mif-spinner3 mif-ani-spin" />
-                    ER
+                    REDUCER
+                    {/* <span className="icon mif-spinner3 mif-ani-spin" /> */}
                     {/* <img src={logo} alt="Logo" height="25%" width="25%" /> */}
                 </Link>
                 <div className="app-bar-pullbutton automatic" />
-                <ul className="app-bar-menu place-right ">
+                <ul className="app-bar-menu place-right" data-flexdirection="reverse">
                     {isLoggedIn ? (
                         <React.Fragment>
                             <li>

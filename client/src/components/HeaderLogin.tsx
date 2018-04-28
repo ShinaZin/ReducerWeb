@@ -37,7 +37,7 @@ export default class HeaderLogin extends React.Component<HeaderLoginProps> {
 
     render() {
         return (
-            <div className="app-bar-element place-right">
+            <div className="app-bar-element">
                 <a className="dropdown-toggle fg-white">
                     <span className="mif-enter" /> Вход
                 </a>
@@ -45,7 +45,6 @@ export default class HeaderLogin extends React.Component<HeaderLoginProps> {
                     className="app-bar-drop-container bg-white fg-dark place-right"
                     data-role="dropdown"
                     data-no-close="true"
-                    style={{ display: 'none' }}
                 >
                     <div className="padding20">
                         <form
@@ -58,23 +57,23 @@ export default class HeaderLogin extends React.Component<HeaderLoginProps> {
                         >
                             <h4 className="text-light">Войти на сайт...</h4>
                             <div className="input-control text">
-                                <span className="mif-user prepend-icon" />
+                                {/* <span className="mif-user prepend-icon" /> */}
                                 <input
                                     data-validate-func="email"
                                     data-validate-hint="Неверный формат почты!"
-                                    type="text"
+                                    type="email"
                                     placeholder="Email"
                                     ref={el =>
                                         (form.email = el as HTMLInputElement)
                                     }
-                                    defaultValue="user@email.com"
+                                    // defaultValue="user@email.com"
                                 />
                             </div>
                             <div
                                 className="input-control password"
                                 data-role="input"
                             >
-                                <span className="mif-lock prepend-icon" />
+                                {/* <span className="mif-lock prepend-icon" /> */}
                                 <input
                                     data-validate-func="required"
                                     data-validate-hint="Введите пароль!"
@@ -83,7 +82,7 @@ export default class HeaderLogin extends React.Component<HeaderLoginProps> {
                                     ref={el =>
                                         (form.password = el as HTMLInputElement)
                                     }
-                                    defaultValue="p@s5_w0rd"
+                                    // defaultValue="p@s5_w0rd"
                                 />
                                 <button className="button helper-button reveal">
                                     <span className="mif-looks" />
@@ -96,7 +95,7 @@ export default class HeaderLogin extends React.Component<HeaderLoginProps> {
                             </label>
                             <div className="form-actions flexbox ">
                                 <button className="button flex-size-auto">
-                                    Готово
+                                    OK
                                 </button>
                                 <input
                                     type="reset"
