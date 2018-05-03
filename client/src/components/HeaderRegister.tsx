@@ -46,8 +46,8 @@ export default class HeaderRegister extends React.Component {
 
     render() {
         return (
-            <div className="app-bar-element">
-                <a className="dropdown-toggle fg-white">
+            <div className="place-right">
+                <a className="dropdown-toggle fg-white bg-hover-dark">
                     <span className="mif-key" /> Регистрация
                 </a>
                 <div

@@ -26,8 +26,8 @@ export default class Header extends React.Component<{}, HeaderState> {
     handleLogout = () => {
         authService.saveToken(null);
         dataService
-        .getCurrentUser()
-        .then(userData => this.setState({ user: userData }));
+            .getCurrentUser()
+            .then(userData => this.setState({ user: userData }));
         document.location.href = '/';
     };
 
@@ -39,38 +39,31 @@ export default class Header extends React.Component<{}, HeaderState> {
         const isLoggedIn = this.state.user ? true : false;
         return (
             <header className="app-bar darcula" data-role="appbar">
-                <Link to="/" className="app-bar-element text-bold">
+                <Link to="/" className="app-bar-element branding">
                     REDUCER
-                    {/* <span className="icon mif-spinner3 mif-ani-spin" /> */}
                     {/* <img src={logo} alt="Logo" height="25%" width="25%" /> */}
                 </Link>
-                <div className="app-bar-pullbutton automatic" />
-                <ul className="app-bar-menu place-right" data-flexdirection="reverse">
-                    {isLoggedIn ? (
-                        <React.Fragment>
-                            <li>
-                                <Link
-                                    to="/settings"
-                                    className="app-bar-element"
-                                >
-                                    Настройки
-                                </Link>
-                            </li>
-                            <li>
-                                <HeaderUser onLogout={this.handleLogout} user={this.state.user}/>
-                            </li>
-                        </React.Fragment>
-                    ) : (
-                        <React.Fragment>
-                            <li>
-                                <HeaderRegister />
-                            </li>
-                            <li>
-                                <HeaderLogin onLogin={this.handleLogin} />
-                            </li>
-                        </React.Fragment>
+                <span className="app-bar-divider" />
+                {isLoggedIn ? (
+                        <HeaderUser onLogout={this.handleLogout} user={this.state.user} />
+                ) : (
+                        <div className="app-bar-element place-right">
+                            <a className="dropdown-toggle fg-white">
+                                <span className="mif-user" /> Гость
+                            </a>
+                            <ul
+                                className="d-menu bg-darkGray place-right" 
+                                data-role="dropdown"
+                            >
+                                <li>
+                                    <HeaderRegister />
+                                </li>
+                                <li>
+                                    <HeaderLogin onLogin={this.handleLogin} />
+                                </li>
+                            </ul>
+                        </div>
                     )}
-                </ul>
             </header>
         );
     }

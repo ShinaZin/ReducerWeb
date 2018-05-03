@@ -37,8 +37,8 @@ export default class HeaderLogin extends React.Component<HeaderLoginProps> {
 
     render() {
         return (
-            <div className="app-bar-element">
-                <a className="dropdown-toggle fg-white">
+            <div className="place-right">
+                <a className="dropdown-toggle fg-white bg-hover-dark">
                     <span className="mif-enter" /> Вход
                 </a>
                 <div
@@ -75,7 +75,7 @@ export default class HeaderLogin extends React.Component<HeaderLoginProps> {
                             >
                                 {/* <span className="mif-lock prepend-icon" /> */}
                                 <input
-                                    data-validate-func="required"
+                                    // data-validate-func="required"
                                     data-validate-hint="Введите пароль!"
                                     type="password"
                                     placeholder="Пароль"
@@ -97,11 +97,6 @@ export default class HeaderLogin extends React.Component<HeaderLoginProps> {
                                 <button className="button flex-size-auto">
                                     OK
                                 </button>
-                                <input
-                                    type="reset"
-                                    className="button alert"
-                                    value="Отмена"
-                                />
                             </div>
                         </form>
                     </div>
