@@ -75,7 +75,7 @@ export default class HeaderLogin extends React.Component<HeaderLoginProps> {
                             >
                                 {/* <span className="mif-lock prepend-icon" /> */}
                                 <input
-                                    // data-validate-func="required"
+                                    data-validate-func="required"
                                     data-validate-hint="Введите пароль!"
                                     type="password"
                                     placeholder="Пароль"
