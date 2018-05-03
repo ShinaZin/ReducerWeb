@@ -1,6 +1,7 @@
 {
   "short_name": "Reducer",
   "name": "Reducer online",
+  "lang": "ru-RU",
   "icons": [
     {
       "src": "favicon.ico",
