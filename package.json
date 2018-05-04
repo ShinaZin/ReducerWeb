@@ -1,11 +1,11 @@
 {
-  "name": "simple-react",
-  "version": "0.1.0",
+  "name": "reduc3r",
+  "version": "0.1.2",
   "private": true,
   "scripts": {
     "server": "cd server && npm start",
     "client": "cd client && npm start",
     "start": "concurrently \"npm run server\" \"npm run client\" --names \"server,client\"",
-    "deploy": "napp deploy -t heroku -i dev --heroku-app simple-react && rm -rf client/build/"
+    "deploy": "napp deploy -t heroku -i dev --heroku-app reduc3r && rm -rf client/build/"
   }
 }

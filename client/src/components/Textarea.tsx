@@ -2,8 +2,9 @@ import * as React from 'react';
 
 import { OptionsParams } from './Options';
 import Reducer from './reducerClasses/Reducer';
+import { getFishText } from '../helpers/fishtextHelper';
 
-interface Props {}
+interface Props { }
 interface States {
     text: string;
     optionsParams: OptionsParams;
@@ -32,7 +33,7 @@ export default class TextBox extends React.Component<Props, States> {
                     }}
                     placeholder="Введите текст для сокращения"
                     value={this.state.text}
-                    onChange={this.handleChangeHandler}
+                    onChange={this.handleChange}
                 />
 
                 <div className="row cell-auto-size">
@@ -48,11 +49,19 @@ export default class TextBox extends React.Component<Props, States> {
                         value="Очистить"
                         onClick={this.handleClickClear}
                     />
+                    <input
+                        type="button"
+                        className="cell button"
+                        value="Пример"
+                        onClick={this.handleClickExample}
+                    />
                 </div>
             </div>
         );
     }
+    
     private handleClickClear = () => {
+        this.setState({ text: '' });
         this.textarea.value = '';
     };
 
@@ -62,7 +71,11 @@ export default class TextBox extends React.Component<Props, States> {
         this.setState({ text: reducedText });
     };
 
-    private handleChangeHandler = (e: any) => {
+    private handleChange = (e: any) => {
         this.setState({ text: e.target.value });
+    };
+
+    private handleClickExample = async (e: any) => {
+        this.setState({ text: await getFishText(2) });
     };
 }

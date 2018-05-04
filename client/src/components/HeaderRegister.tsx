@@ -1,6 +1,8 @@
 import * as React from 'react';
-import authService from '../services/authService';
+
 import { Metro } from '../helpers/metroHelper';
+import authService from '../services/authService';
+
 let form: {
     email: HTMLInputElement;
     password: HTMLInputElement;
@@ -44,15 +46,14 @@ export default class HeaderRegister extends React.Component {
 
     render() {
         return (
-            <div className="app-bar-element place-right">
-                <a className="dropdown-toggle fg-white">
+            <div className="place-right">
+                <a className="dropdown-toggle fg-white bg-hover-dark">
                     <span className="mif-key" /> Регистрация
                 </a>
                 <div
                     className="app-bar-drop-container bg-white fg-dark place-right"
                     data-role="dropdown"
                     data-no-close="true"
-                    style={{ display: 'none' }}
                 >
                     <div className="padding20">
                         <form
@@ -65,23 +66,23 @@ export default class HeaderRegister extends React.Component {
                         >
                             <h4 className="text-light">Регистрация</h4>
                             <div className="input-control text">
-                                <span className="mif-user prepend-icon" />
+                                {/* <span className="mif-user prepend-icon" /> */}
                                 <input
                                     data-validate-func="email"
                                     data-validate-hint="Неверный формат почты!"
-                                    type="text"
+                                    type="email"
                                     placeholder="Email"
                                     ref={el =>
                                         (form.email = el as HTMLInputElement)
                                     }
-                                    defaultValue="user@email.com"
+                                    // defaultValue="user@email.com"
                                 />
                             </div>
                             <div
                                 className="input-control password"
                                 data-role="input"
                             >
-                                <span className="mif-lock prepend-icon" />
+                                {/* <span className="mif-lock prepend-icon" /> */}
                                 <input
                                     data-validate-func="minlength"
                                     data-validate-arg="8"
@@ -91,7 +92,7 @@ export default class HeaderRegister extends React.Component {
                                     ref={el =>
                                         (form.password = el as HTMLInputElement)
                                     }
-                                    defaultValue="p@s5_w0rd"
+                                    // defaultValue="p@s5_w0rd"
                                 />
                                 <button className="button helper-button reveal">
                                     <span className="mif-looks" />
@@ -101,14 +102,14 @@ export default class HeaderRegister extends React.Component {
                                 className="input-control password"
                                 data-role="input"
                             >
-                                <span className="mif-lock prepend-icon" />
+                                {/* <span className="mif-lock prepend-icon" /> */}
                                 <input
                                     type="password"
                                     placeholder="Повторите пароль"
                                     ref={el =>
                                         (form.confirmPassword = el as HTMLInputElement)
                                     }
-                                    defaultValue="p@s5_w0rd"
+                                    // defaultValue="p@s5_w0rd"
                                 />
                                 <button className="button helper-button reveal">
                                     <span className="mif-looks" />

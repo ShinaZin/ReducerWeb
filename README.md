@@ -27,8 +27,8 @@ ReducerTS
 # Todos
 
 *   ~~Signing-up~~
-*   Logging in to user mode
-*   Disable user funcs in guest mode
-*   Mailing with activation tokens
+*   ~~Logging in to user mode~~
+*   ~~Disable user funcs in guest mode~~
+*   ~~Mailing with activation tokens~~
 *   Store user settings on DB
 *   Add CAPTCHA

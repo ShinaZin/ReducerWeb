@@ -68,9 +68,21 @@ async function processRequest(axiosRequest: any) {
         let status = response.status;
 
         if (status === 401 || status === 403) {
-            if (!window.location.toString().endsWith('/login')) {
-                window.location.href = '/login'; // =
+            // console.log(window.location);
+            if (window.location.pathname.startsWith('/activate')) {
+                return;
             }
+            if (window.location.pathname !== '/') {
+                // setTimeout(() => {
+                window.location.href = '/';
+                // }, 5000);
+            }
+            Metro.notify(
+                'Info',
+                'login to access to full version of app',
+                'info',
+                true
+            );
             return;
         }
 
