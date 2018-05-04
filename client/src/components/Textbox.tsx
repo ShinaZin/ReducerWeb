@@ -26,10 +26,4 @@ export default class Textbox extends React.Component<TextboxProps, TextboxState>
             </div>
         );
     }
-    // example: get /login route data:
-    // onClick=() => {
-    //     fetch('/login')
-    //         .then(response => response.json())
-    //         .then(data => console.log(data));
-    // }
 }

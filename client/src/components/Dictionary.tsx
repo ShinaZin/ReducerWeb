@@ -4,6 +4,7 @@ import Textbox from './Textbox';
 
 interface DictionaryProps {
     dictionary: Map<string, string>;
+    onChange: Function;
 }
 interface DictionaryState {
     dictionary: Map<string, string>;
@@ -17,22 +18,24 @@ export default class Dictionary extends React.Component<DictionaryProps, Diction
         this.state = { dictionary: props.dictionary };
     }
 
-    handleDeleteClick = () => {
+    private handleDeleteClick = () => {
         const valueOld = this.inputOld.value;
-        let newDictionary = this.state.dictionary;
+        const newDictionary = this.state.dictionary;
         newDictionary.delete(valueOld);
         this.setState({ dictionary: newDictionary });
+        this.props.onChange(newDictionary);
 
     }
 
-    handleAddClick = () => {
+    private handleAddClick = () => {
         const valueOld = this.inputOld.value;
         const valueNew = this.inputNew.value;
         const newDictionary = this.state.dictionary.set(valueOld, valueNew);
         this.setState({ dictionary: newDictionary });
+        this.props.onChange(newDictionary);
     }
 
-    handleListChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    private handleListChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const match = e.target.value.match(/(.*):(.*)/);
         if (match && match.length >= 3) {
             this.inputOld.value = match[1];

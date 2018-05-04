@@ -1,65 +1,48 @@
-import pathHelper from '../helpers/pathHelper';
-import * as fs from 'fs-extra';
-import * as _ from 'lodash';
+import db from '../database/database';
 
 export default {
-    saveSettings,
+    addSettings,
+    updateSettings,
     getSettings,
-    getCurrentUser
+    getSettingsById,
 };
 
-const dataPath = pathHelper.getLocalRelative('data.json');
-const initDataPath = pathHelper.getDataRelative('data.json');
-let dataCache = null;
-
-function getData(): {items: any} {
-    if (!dataCache) {
-        if (fs.existsSync(dataPath)) {
-            dataCache = fs.readJsonSync(dataPath);
-        } else {
-            dataCache = fs.readJsonSync(initDataPath);
-        }
-    }
-
-    return dataCache;
-}
-
-function saveData() {
-    fs.writeJSONSync(dataPath, dataCache);
-}
-
-function getCurrentUser(): any {
-    if (!dataCache) {
-        if (fs.existsSync(dataPath)) {
-            dataCache = fs.readJsonSync(dataPath);
-        } else {
-            dataCache = fs.readJsonSync(initDataPath);
-        }
-    }
-
-    return dataCache;
-}
-
-function getSettings() {
-    let data = getData();
-
-    return data.items;
-}
-
-function saveSettings(settings) {
-    let data = getData();
-
-    let maxId = _.max<number>(data.items.map(x => x.id));
-
-    settings  = {
-        id: maxId ? maxId + 1 : 1,
-        ...settings
+async function getSettings(userId) {
+    const { Settings } = db.models;
+    const query = {
+        userId
     };
+    const settings = await Settings.find(query).sort({ title: 1 });
+    return settings.map(item =>
+        mapSettings(item)
+    );
+}
 
-    data.items.push(settings);
+async function getSettingsById(id: number) {
+    const { Settings } = db.models;
+    const settings = await Settings.findById(id);
+    return mapSettings(settings);
+}
 
-    saveData();
+async function updateSettings(settingsData) {
+    const { Settings } = db.models;
+    const settings = await Settings.findOne({ _id: settingsData.id });
+    if (!settings) return;
+    settings.title = settingsData.title;
+    settings.description = settingsData.description;
+    const result = await settings.save();
+    return mapSettings(result);
+}
 
+async function addSettings(userId, settingsData) {
+    const { Settings } = db.models;
+    settingsData.userId = userId;
+    const category = await Settings.create(settingsData);
+    return mapSettings(category);
+}
+
+function mapSettings(settings) {
+    settings._doc.id = settings._id;
     return settings;
 }
 

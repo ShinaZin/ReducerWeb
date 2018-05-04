@@ -14,26 +14,23 @@ export default {
 async function currentUser(req, res) {
   try {
     const userId = helper.getCurrentUser(req)._id;
-
     const user = await userRepository.getUserById(userId);
-
     return helper.sendData(user, res);
   } catch (err) {
     return helper.sendFailureMessage(err, res);
   }
 }
 
-// async function assertUserOwnsCategory(userId, categoryId) {
-//   const category = await categoryRepository.getCategoryById(categoryId);
-
-//   const hasRights = category && category.userId.toString() === userId;
-
-//   if (!hasRights) throw new AppError('User does not own category');
-// }
+async function assertUserOwnsSettings(userId, settingsId) {
+  const settings = await settingsRepository.getSettingsById(settingsId);
+  const hasRights = settings && settings.userId.toString() === userId;
+  if (!hasRights) throw new AppError('User does not own settings');
+}
 
 async function getSettings(req, res) {
   try {
-    let settings = await settingsRepository.getSettings();
+    const userId = helper.getCurrentUser(req)._id;
+    const settings = await settingsRepository.getSettings(userId);
     return helper.sendData(settings, res);
   } catch (err) {
     return helper.sendFailureMessage(err, res);
@@ -42,12 +39,21 @@ async function getSettings(req, res) {
 
 async function saveSettings(req, res) {
   try {
-    let data = await helper.loadSchema(req.body, {
-      name: Joi.string().required()
+    const data = await helper.loadSchema(req.body, {
+      settings: Joi.object().keys({
+        id: Joi.string().allow(null),
+        options: Joi.object().allow(null),
+        dict: Joi.object().allow(null)
+      })
     });
-
-    let settings = await settingsRepository.saveSettings(data);
-
+    const userId = helper.getCurrentUser(req)._id;
+    let settings = null;
+    if (data.settings.id) {
+      await assertUserOwnsSettings(userId, data.settings.id);
+      settings = await settingsRepository.updateSettings(data.settings);
+    } else {
+      settings = await settingsRepository.addSettings(userId, data.settings);
+    }
     return helper.sendData(settings, res);
   } catch (err) {
     return helper.sendFailureMessage(err, res);
