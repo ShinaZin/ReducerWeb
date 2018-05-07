@@ -3,8 +3,9 @@ import * as React from 'react';
 import { OptionsParams } from './Options';
 import Reducer from './reducerClasses/Reducer';
 import { getFishText } from '../helpers/fishtextHelper';
+import { colors } from '../helpers/constants';
 
-interface Props { }
+interface Props {}
 interface States {
     text: string;
     optionsParams: OptionsParams;
@@ -39,7 +40,9 @@ export default class TextBox extends React.Component<Props, States> {
                 <div className="row cell-auto-size">
                     <input
                         type="button"
-                        className="cell button bg-emerald fg-white"
+                        className={
+                            'cell button fg-white bg-' + colors.METRO_MAIN
+                        }
                         value="Сократить"
                         onClick={this.handleClickReduce}
                     />
@@ -59,7 +62,7 @@ export default class TextBox extends React.Component<Props, States> {
             </div>
         );
     }
-    
+
     private handleClickClear = () => {
         this.setState({ text: '' });
         this.textarea.value = '';

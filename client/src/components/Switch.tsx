@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+import { colors } from '../helpers/constants';
+
 interface Props {
     label: string;
     checked?: boolean;
@@ -36,7 +38,7 @@ export default class Switch extends React.Component<Props, State> {
                     />
                     <span 
                         className="check"
-                        style={this.state.checked ? { background: 'green' } : {}}
+                        style={this.state.checked ? { background: colors.MAIN } : {}}
                     />
                 </label>
             </div>

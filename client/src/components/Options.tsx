@@ -1,11 +1,8 @@
 import * as React from 'react';
 
+import { colors } from '../helpers/constants';
 import MetroSlider from './MetroSlider';
 import Switch from './Switch';
-
-interface Props {
-    onChange: Function;
-}
 
 export type OptionsParams = {
     maxSyllables?: number;
@@ -15,85 +12,108 @@ export type OptionsParams = {
     syllablesToHyphen?: number;
 };
 
-const colors = {
-    MAIN_COLOR: 'green'
-};
+interface OptionsProps {
+    onChange: Function;
+    defaultValues?: OptionsParams;
+}
 
-export default class Options extends React.Component<Props> {
-    public optionsParams: OptionsParams;
+interface OptionsState {
+    maxSyllables?: number;
+    vowelsDeletePercent?: number;
+    deleteNewLineSymbols?: boolean;
+    deleteSpacesAndTabs?: boolean;
+    syllablesToHyphen?: number;
+}
+
+export default class Options extends React.Component<
+    OptionsProps,
+    OptionsState
+> {
     constructor(props: any) {
         super(props);
-        this.optionsParams = {
+        this.state = this.props.defaultValues || {
             maxSyllables: 3,
-            vowelsDeletePercent: 0,
+            vowelsDeletePercent: 15,
             deleteNewLineSymbols: false,
-            deleteSpacesAndTabs: false,
-            syllablesToHyphen: 5
+            deleteSpacesAndTabs: true,
+            syllablesToHyphen: 4
         };
     }
 
     private handleChangeDeleteSpaces = (checked: boolean) => {
-        this.optionsParams.deleteSpacesAndTabs = checked;
-        this.props.onChange(this.optionsParams);
+        this.setState({ deleteSpacesAndTabs: checked });
+        this.props.onChange(this.state); // не обновляется
     };
 
     private handleChangeDeleteNewLines = (checked: boolean) => {
-        this.optionsParams.deleteNewLineSymbols = checked;
-        this.props.onChange(this.optionsParams);
+        this.setState({ deleteNewLineSymbols: checked });
+        this.props.onChange(this.state);
     };
 
     private handleChangeVowelsDelete = (percent: number) => {
-        this.optionsParams.vowelsDeletePercent = percent;
-        this.props.onChange(this.optionsParams);
+        this.setState({ vowelsDeletePercent: percent });
+        this.props.onChange(this.state);
     };
 
     private handleChangeMaxSyllables = (count: number) => {
-        this.optionsParams.maxSyllables = count;
-        this.props.onChange(this.optionsParams);
+        this.setState({ maxSyllables: count });
+        this.props.onChange(this.state);
     };
 
     private handleChangeSyllablesToHyphen = (count: number) => {
-        this.optionsParams.syllablesToHyphen = count;
-        this.props.onChange(this.optionsParams);
+        this.setState({ syllablesToHyphen: count });
+        this.props.onChange(this.state);
     };
+
+    componentDidMount() {
+        this.props.onChange(this.state);
+    }
+
+    componentWillReceiveProps(nextProps: OptionsProps) {
+        if (nextProps.defaultValues === this.props.defaultValues) {
+            return;
+        }
+        // console.log({...nextProps.defaultValues});
+        this.setState({ ...nextProps.defaultValues }); // не обновляется
+        // this.render();
+    }
 
     render() {
         return (
-            <div
-                className="options cell auto-size size-p30 padding10 no-padding-top"
-            >
+            <div className="options cell auto-size size-p30 padding10 no-padding-top">
                 <Switch
                     label={'Удалять лишние пробелы'}
                     onChange={this.handleChangeDeleteSpaces}
-                    checked={true}
+                    checked={this.state.deleteSpacesAndTabs}
                 />
                 <Switch
                     label={'Удалять переводы строк'}
                     onChange={this.handleChangeDeleteNewLines}
+                    checked={this.state.deleteNewLineSymbols}
                 />
 
                 <MetroSlider
                     label={'Процент удаляемых гласных'}
-                    value={15}
-                    color={colors.MAIN_COLOR}
+                    defaultValue={this.state.vowelsDeletePercent}
+                    color={colors.MAIN}
                     onChange={this.handleChangeVowelsDelete}
                 />
                 <MetroSlider
                     label={'Максимум слогов'}
-                    value={3}
+                    defaultValue={this.state.maxSyllables}
                     minValue={1}
                     maxValue={10}
                     step={1}
-                    color={colors.MAIN_COLOR}
+                    color={colors.MAIN}
                     onChange={this.handleChangeMaxSyllables}
                 />
                 <MetroSlider
                     label={'Количество слогов для сокращения через дефис'}
-                    value={4}
+                    defaultValue={this.state.syllablesToHyphen}
                     minValue={3}
                     maxValue={15}
                     step={1}
-                    color={colors.MAIN_COLOR}
+                    color={colors.MAIN}
                     onChange={this.handleChangeSyllablesToHyphen}
                 />
             </div>

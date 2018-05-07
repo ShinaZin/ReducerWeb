@@ -12,7 +12,7 @@ async function getSettings(userId) {
     const query = {
         userId
     };
-    const settings = await Settings.find(query).sort({ title: 1 });
+    const settings = await Settings.find(query);
     return settings.map(item =>
         mapSettings(item)
     );
@@ -28,8 +28,6 @@ async function updateSettings(settingsData) {
     const { Settings } = db.models;
     const settings = await Settings.findOne({ _id: settingsData.id });
     if (!settings) return;
-    settings.title = settingsData.title;
-    settings.description = settingsData.description;
     const result = await settings.save();
     return mapSettings(result);
 }
@@ -37,8 +35,8 @@ async function updateSettings(settingsData) {
 async function addSettings(userId, settingsData) {
     const { Settings } = db.models;
     settingsData.userId = userId;
-    const category = await Settings.create(settingsData);
-    return mapSettings(category);
+    const settings = await Settings.create(settingsData);
+    return mapSettings(settings);
 }
 
 function mapSettings(settings) {

@@ -1,48 +1,69 @@
 import * as React from 'react';
-import Options, { OptionsParams } from '../Options';
-import TextBox from '../Textarea';
-import { createHash } from 'crypto';
 
-import Dictionary from '../Dictionary';
+import { mapToArray, arrayToMap } from '../../helpers/commonHelper';
 import dataService from '../../services/dataService';
+import Dictionary from '../Dictionary';
+import Options, { OptionsParams } from '../Options';
 
-export default class SettingsPage extends React.Component {
+interface SettingsPageState {
+    dictionary: Map<string, string>;
+    options: OptionsParams;
+}
 
-    dictionary = new Map<string, string>();
-
+export default class SettingsPage extends React.Component<
+    {},
+    SettingsPageState
+> {
     constructor(props: any) {
         super(props);
-        this.dictionary.set('короче', 'крч');
-        this.dictionary.set('информ.без.', 'ИБ');
-        this.dictionary.set('классификация', 'клсф-я');
+        this.state = {
+            dictionary: new Map(),
+            options: null
+        };
     }
 
     private handleOptionsChange = (options: OptionsParams) => {
-        console.log(options);
-        const settings = {
-            options: options
-        };
-        dataService.saveSettings(settings);
+        this.setState({ options });
     };
 
-    private handleDictChange = (dict: Map<string, string>) => {
-        const arr = Array.from(dict, ([key, value]) => ({ key, value }));
-        console.log(arr);
+    private handleDictChange = (dictionary: Map<string, string>) => {
+        this.setState({ dictionary });
+    };
+
+    private handleSaveClick = () => {
+        const { dictionary, options } = this.state;
+        const arrayDict = mapToArray(dictionary);
         const settings = {
-            dict: arr
+            dictionary: arrayDict,
+            options
         };
         dataService.saveSettings(settings);
     };
 
     async componentDidMount() {
-        const settings = await dataService.getSettings();
+        const data = (await dataService.getSettings()) as any[];
+        const [settings, ...rest] = data.reverse();
+        const { dictionary, options } = settings || {
+            dictionary: new Map(),
+            options: null
+        };
+        const mapDictionary = arrayToMap(dictionary);
+        this.setState({ dictionary: mapDictionary, options });
+        // console.log(settings);
     }
 
     render() {
         return (
             <div className="row  cells3">
-                <Dictionary dictionary={this.dictionary} onChange={this.handleDictChange} />
-                <Options onChange={this.handleOptionsChange} />
+                <Dictionary
+                    defaultValues={this.state.dictionary}
+                    onChange={this.handleDictChange}
+                    onSave={this.handleSaveClick}
+                />
+                <Options
+                    onChange={this.handleOptionsChange}
+                    defaultValues={this.state.options}
+                />
             </div>
         );
     }

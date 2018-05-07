@@ -6,7 +6,7 @@ import * as React from 'react';
 
 interface SliderProps {
     label: string;
-    value: number;
+    defaultValue: number;
     minValue?: number;
     maxValue?: number;
     step?: number;
@@ -54,7 +54,7 @@ export default class MetroSlider extends React.Component<
                     step={this.props.step}
                     included={true}
                     onAfterChange={this.onSlideChange}
-                    defaultValue={this.props.value}
+                    defaultValue={this.props.defaultValue}
                     trackStyle={{
                         backgroundColor: this.props.color,
                         height: 5

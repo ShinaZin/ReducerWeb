@@ -6,7 +6,7 @@ const schema = new mongoose.Schema({
         type: Object,
         required: true
     },
-    dict: {
+    dictionary: {
         type: Object,
         required: true
     },
