@@ -1,6 +1,6 @@
-import homeController from '../controllers/homeController';
-import apiController from '../controllers/apiController';
+import { apiController } from '../controllers/apiController';
 import authController from '../controllers/authController';
+import homeController from '../controllers/homeController';
 import helper from './routeHelper';
 
 export default {

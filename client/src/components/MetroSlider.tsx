@@ -36,25 +36,34 @@ export default class MetroSlider extends React.Component<
     SliderProps,
     SliderState
     > {
-    constructor(props: any) {
+    private slider: Slider;
+    constructor(props: SliderProps) {
         super(props);
-        this.state = { value: props.value };
+        this.state = { value: props.defaultValue };
     }
     public onSlideChange = (value: any) => {
         this.setState({ value: value });
         this.props.onChange(value);
     };
+    componentWillReceiveProps(nextProps: SliderProps) {
+        if (nextProps.defaultValue === this.props.defaultValue) {
+            return;
+        }
+        this.setState({ value: nextProps.defaultValue });
+        this.slider.setState({ value: nextProps.defaultValue });
+    }
     render() {
         return (
             <div>
                 <h5>{this.props.label}</h5>
                 <Slider
+                    ref={el => this.slider = el}
                     min={this.props.minValue}
                     max={this.props.maxValue}
                     step={this.props.step}
                     included={true}
                     onAfterChange={this.onSlideChange}
-                    defaultValue={this.props.defaultValue}
+                    defaultValue={this.state.value}
                     trackStyle={{
                         backgroundColor: this.props.color,
                         height: 5

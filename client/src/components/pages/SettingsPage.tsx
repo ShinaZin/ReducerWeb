@@ -4,6 +4,7 @@ import { mapToArray, arrayToMap } from '../../helpers/commonHelper';
 import dataService from '../../services/dataService';
 import Dictionary from '../Dictionary';
 import Options, { OptionsParams } from '../Options';
+import { OPTIONS_DEFAULT } from '../../helpers/constants';
 
 interface SettingsPageState {
     dictionary: Map<string, string>;
@@ -13,12 +14,12 @@ interface SettingsPageState {
 export default class SettingsPage extends React.Component<
     {},
     SettingsPageState
-> {
+    > {
     constructor(props: any) {
         super(props);
         this.state = {
             dictionary: new Map(),
-            options: null
+            options: OPTIONS_DEFAULT
         };
     }
 
@@ -42,14 +43,13 @@ export default class SettingsPage extends React.Component<
 
     async componentDidMount() {
         const data = (await dataService.getSettings()) as any[];
-        const [settings, ...rest] = data.reverse();
-        const { dictionary, options } = settings || {
-            dictionary: new Map(),
-            options: null
-        };
+        if (!data) {
+            return;
+        }
+        const [settings] = data;
+        const { dictionary, options } = settings || this.state;
         const mapDictionary = arrayToMap(dictionary);
         this.setState({ dictionary: mapDictionary, options });
-        // console.log(settings);
     }
 
     render() {

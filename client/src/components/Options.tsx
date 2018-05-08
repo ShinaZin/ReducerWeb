@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { colors } from '../helpers/constants';
+import { colors, OPTIONS_DEFAULT } from '../helpers/constants';
 import MetroSlider from './MetroSlider';
 import Switch from './Switch';
 
@@ -28,41 +28,46 @@ interface OptionsState {
 export default class Options extends React.Component<
     OptionsProps,
     OptionsState
-> {
+    > {
     constructor(props: any) {
         super(props);
-        this.state = this.props.defaultValues || {
-            maxSyllables: 3,
-            vowelsDeletePercent: 15,
-            deleteNewLineSymbols: false,
-            deleteSpacesAndTabs: true,
-            syllablesToHyphen: 4
-        };
+        this.state = this.props.defaultValues || OPTIONS_DEFAULT;
     }
 
     private handleChangeDeleteSpaces = (checked: boolean) => {
         this.setState({ deleteSpacesAndTabs: checked });
-        this.props.onChange(this.state); // не обновляется
+        this.props.onChange(Object.assign(
+            this.state, { deleteSpacesAndTabs: checked }
+        ));
     };
 
     private handleChangeDeleteNewLines = (checked: boolean) => {
         this.setState({ deleteNewLineSymbols: checked });
-        this.props.onChange(this.state);
+        this.props.onChange(Object.assign(
+            this.state, { deleteNewLineSymbols: checked }
+        ));
     };
 
     private handleChangeVowelsDelete = (percent: number) => {
         this.setState({ vowelsDeletePercent: percent });
-        this.props.onChange(this.state);
+        this.props.onChange(Object.assign(
+            this.state,
+            { vowelsDeletePercent: percent }
+        ));
     };
 
     private handleChangeMaxSyllables = (count: number) => {
         this.setState({ maxSyllables: count });
-        this.props.onChange(this.state);
+        this.props.onChange(Object.assign(
+            this.state, { maxSyllables: count }
+        ));
     };
 
     private handleChangeSyllablesToHyphen = (count: number) => {
         this.setState({ syllablesToHyphen: count });
-        this.props.onChange(this.state);
+        this.props.onChange(Object.assign(
+            this.state, { syllablesToHyphen: count }
+        ));
     };
 
     componentDidMount() {
@@ -73,9 +78,7 @@ export default class Options extends React.Component<
         if (nextProps.defaultValues === this.props.defaultValues) {
             return;
         }
-        // console.log({...nextProps.defaultValues});
         this.setState({ ...nextProps.defaultValues }); // не обновляется
-        // this.render();
     }
 
     render() {

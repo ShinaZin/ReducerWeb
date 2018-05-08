@@ -25,6 +25,14 @@ export default class Switch extends React.Component<Props, State> {
         });
     };
 
+    componentWillReceiveProps(nextProps: any) {
+        if (nextProps.checked == null ||
+            nextProps.checked === this.props.checked) {
+            return;
+        } 
+        this.setState({ ...nextProps });
+    }
+
     render() {
         return (
             <div>
@@ -34,9 +42,9 @@ export default class Switch extends React.Component<Props, State> {
                         type="checkbox"
                         checked={this.state.checked}
                         onChange={this.toggleChange}
-                        
+
                     />
-                    <span 
+                    <span
                         className="check"
                         style={this.state.checked ? { background: colors.MAIN } : {}}
                     />
