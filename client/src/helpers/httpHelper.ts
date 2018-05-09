@@ -77,12 +77,6 @@ async function processRequest(axiosRequest: any) {
                 window.location.href = '/';
                 // }, 5000);
             }
-            Metro.notify(
-                'Info',
-                'login to access to full version of app',
-                'info',
-                true
-            );
             return;
         }
 

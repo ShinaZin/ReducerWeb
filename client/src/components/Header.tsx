@@ -6,6 +6,7 @@ import dataService, { UserData } from '../services/dataService';
 import HeaderLogin from './HeaderLogin';
 import HeaderRegister from './HeaderRegister';
 import HeaderUser from './HeaderUser';
+import { Metro } from '../helpers/metroHelper';
 
 interface HeaderState {
     user: UserData;
@@ -18,9 +19,17 @@ export default class Header extends React.Component<{}, HeaderState> {
     }
 
     handleLogin = () => {
-        dataService
-            .getCurrentUser()
-            .then(userData => this.setState({ user: userData }));
+        dataService.getCurrentUser().then(userData => {
+            this.setState({ user: userData });
+            if (!userData) {
+                Metro.notify(
+                    'Info',
+                    'login to access to full version of app',
+                    'info',
+                    true
+                );
+            }
+        });
     };
 
     handleLogout = () => {
@@ -45,25 +54,28 @@ export default class Header extends React.Component<{}, HeaderState> {
                 </Link>
                 <span className="app-bar-divider" />
                 {isLoggedIn ? (
-                        <HeaderUser onLogout={this.handleLogout} user={this.state.user} />
+                    <HeaderUser
+                        onLogout={this.handleLogout}
+                        user={this.state.user}
+                    />
                 ) : (
-                        <div className="app-bar-element place-right">
-                            <a className="dropdown-toggle fg-white">
-                                <span className="mif-user" /> Гость
-                            </a>
-                            <ul
-                                className="d-menu bg-darkGray place-right" 
-                                data-role="dropdown"
-                            >
-                                <li>
-                                    <HeaderRegister />
-                                </li>
-                                <li>
-                                    <HeaderLogin onLogin={this.handleLogin} />
-                                </li>
-                            </ul>
-                        </div>
-                    )}
+                    <div className="app-bar-element place-right">
+                        <a className="dropdown-toggle fg-white">
+                            <span className="mif-user" /> Гость
+                        </a>
+                        <ul
+                            className="d-menu bg-darkGray place-right"
+                            data-role="dropdown"
+                        >
+                            <li>
+                                <HeaderRegister />
+                            </li>
+                            <li>
+                                <HeaderLogin onLogin={this.handleLogin} />
+                            </li>
+                        </ul>
+                    </div>
+                )}
             </header>
         );
     }
