@@ -8,9 +8,9 @@ import * as React from 'react';
 import { Route, Switch } from 'react-router';
 
 import Header from './components/Header';
-import MainPage from './components/pages/MainPage';
-import SettingsPage from './components/pages/SettingsPage';
 import ActivationPage from './components/pages/auth/ActivationPage';
+import MainPageAsync from './components/pages/MainPageAsync';
+import SettingsPageAsync from './components/pages/SettingsPageAsync';
 
 export default class App extends React.Component {
 
@@ -20,8 +20,8 @@ export default class App extends React.Component {
                 <Header />
                 <main className="container padding30 flex-grid">
                     <Switch>
-                        <Route exact path="/" component={MainPage} />
-                        <Route exact path="/settings" component={SettingsPage} />
+                        <Route exact path="/" component={MainPageAsync} />
+                        <Route exact path="/settings" component={SettingsPageAsync} />
                         <Route
                             path="/activate/:token"
                             component={(props: any) => (

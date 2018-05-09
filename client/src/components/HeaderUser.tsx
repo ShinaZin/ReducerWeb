@@ -17,7 +17,7 @@ export default class HeaderUser extends React.Component<HeaderUserProps> {
         return (
             <div className="app-bar-element place-right">
                 <a className="dropdown-toggle fg-white">
-                    <span className="mif-user" /> {this.props.user.email}
+                    <span className="mif-user" /> {this.props.user.email.replace(/\@.*/, '')}
                 </a>
                 <ul
                     className="d-menu bg-white fg-dark place-right"

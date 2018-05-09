@@ -1,18 +1,18 @@
 import * as React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
+import { Metro } from '../helpers/metroHelper';
 import authService from '../services/authService';
 import dataService, { UserData } from '../services/dataService';
 import HeaderLogin from './HeaderLogin';
 import HeaderRegister from './HeaderRegister';
 import HeaderUser from './HeaderUser';
-import { Metro } from '../helpers/metroHelper';
 
 interface HeaderState {
     user: UserData;
 }
 
-export default class Header extends React.Component<{}, HeaderState> {
+class Header extends React.Component<{}, HeaderState> {
     constructor(props: any) {
         super(props);
         this.state = { user: null };
@@ -80,3 +80,5 @@ export default class Header extends React.Component<{}, HeaderState> {
         );
     }
 }
+
+export default withRouter(Header);

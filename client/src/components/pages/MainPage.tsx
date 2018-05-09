@@ -22,7 +22,7 @@ export default class MainPage extends React.Component<{}, MainPageState> {
     };
 
     async componentDidMount() {
-        const data = (await dataService.getSettings()) as any[]; //isLoggedIn
+        const data = (await dataService.getSettings()) as any[];
         if (!data) {
             return;
         }
