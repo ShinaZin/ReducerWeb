@@ -1,9 +1,10 @@
 import * as React from 'react';
 
-import dataService from '../../services/dataService';
-import Options, { OptionsParams } from '../Options';
-import TextBox from '../Textarea';
 import { OPTIONS_DEFAULT } from '../../helpers/constants';
+import dataService from '../../services/dataService';
+import { Row } from '../common/Table';
+import TextBox from '../common/Textarea';
+import Options, { OptionsParams } from '../Options';
 
 interface MainPageState {
     options: OptionsParams;
@@ -33,14 +34,17 @@ export default class MainPage extends React.Component<{}, MainPageState> {
 
     render() {
         return (
-            <div className="workspace row cells2 ">
+            <Row className="workspace" cells={2}>
                 <TextBox
                     ref={tb => {
                         this.textbox = tb as TextBox;
                     }}
                 />
-                <Options onChange={this.handleOptionsChange} defaultValues={this.state.options} />
-            </div>
+                <Options
+                    onChange={this.handleOptionsChange}
+                    defaultValues={this.state.options}
+                />
+            </Row>
         );
     }
 }

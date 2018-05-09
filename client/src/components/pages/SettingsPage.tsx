@@ -5,6 +5,7 @@ import dataService from '../../services/dataService';
 import Dictionary from '../Dictionary';
 import Options, { OptionsParams } from '../Options';
 import { OPTIONS_DEFAULT } from '../../helpers/constants';
+import { Row } from '../common/Table';
 
 interface SettingsPageState {
     dictionary: Map<string, string>;
@@ -54,7 +55,7 @@ export default class SettingsPage extends React.Component<
 
     render() {
         return (
-            <div className="row  cells3">
+            <Row cells={3}>
                 <Dictionary
                     defaultValues={this.state.dictionary}
                     onChange={this.handleDictChange}
@@ -64,7 +65,7 @@ export default class SettingsPage extends React.Component<
                     onChange={this.handleOptionsChange}
                     defaultValues={this.state.options}
                 />
-            </div>
+            </Row>
         );
     }
 }

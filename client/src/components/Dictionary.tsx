@@ -1,8 +1,9 @@
 import * as React from 'react';
 
-import Textbox from './Textbox';
 import { mapToArray } from '../helpers/commonHelper';
 import { colors } from '../helpers/constants';
+import { Row } from './common/Table';
+import Textbox from './common/Textbox';
 
 interface DictionaryProps {
     defaultValues: Map<string, string>;
@@ -81,21 +82,21 @@ export default class Dictionary extends React.Component<
                 </div>
                 <div className="cell auto-size  padding10 no-padding-top">
                     <div className="flex-grid">
-                        <div className="row cells1">
+                        <Row cells={1}>
                             <Textbox
                                 placeholder="Исходное слово"
                                 ref={e => (this.inputOld = e as Textbox)}
                             />
-                        </div>
+                        </Row>
 
-                        <div className="row cells1">
+                        <Row cells={1}>
                             <Textbox
                                 placeholder="Новое слово"
                                 ref={e => (this.inputNew = e as Textbox)}
                             />
-                        </div>
+                        </Row>
 
-                        <div className="row cells2 flex-content-sb">
+                        <Row className="flex-content-sb" cells={2}>
                             <button
                                 className="button cell auto-size"
                                 onClick={this.handleAddClick}
@@ -108,8 +109,8 @@ export default class Dictionary extends React.Component<
                             >
                                 Удалить
                             </button>
-                        </div>
-                        <div className="row cells1 flex-content-sb">
+                        </Row>
+                        <Row className="flex-content-sb" cells={1}>
                             <button
                                 className={
                                     'button cell auto-size  fg-white bg-' +
@@ -119,7 +120,7 @@ export default class Dictionary extends React.Component<
                             >
                                 Сохранить
                             </button>
-                        </div>
+                        </Row>
                     </div>
                 </div>
             </React.Fragment>

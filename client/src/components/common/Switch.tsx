@@ -1,6 +1,5 @@
 import * as React from 'react';
-
-import { colors } from '../helpers/constants';
+import { colors } from '../../helpers/constants';
 
 interface Props {
     label: string;
@@ -26,10 +25,12 @@ export default class Switch extends React.Component<Props, State> {
     };
 
     componentWillReceiveProps(nextProps: any) {
-        if (nextProps.checked == null ||
-            nextProps.checked === this.props.checked) {
+        if (
+            nextProps.checked == null ||
+            nextProps.checked === this.props.checked
+        ) {
             return;
-        } 
+        }
         this.setState({ ...nextProps });
     }
 
@@ -42,11 +43,14 @@ export default class Switch extends React.Component<Props, State> {
                         type="checkbox"
                         checked={this.state.checked}
                         onChange={this.toggleChange}
-
                     />
                     <span
                         className="check"
-                        style={this.state.checked ? { background: colors.MAIN } : {}}
+                        style={
+                            this.state.checked
+                                ? { background: colors.MAIN }
+                                : {}
+                        }
                     />
                 </label>
             </div>

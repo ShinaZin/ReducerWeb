@@ -1,8 +1,8 @@
 import * as React from 'react';
 
 import { colors, OPTIONS_DEFAULT } from '../helpers/constants';
-import MetroSlider from './MetroSlider';
-import Switch from './Switch';
+import MetroSlider from './common/MetroSlider';
+import Switch from './common/Switch';
 
 export type OptionsParams = {
     maxSyllables?: number;

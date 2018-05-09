@@ -1,8 +1,10 @@
-import * as React from 'react';
 import * as classnames from 'classnames';
+import * as React from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import authService from '../../../services/authService';
+
 import { Metro } from '../../../helpers/metroHelper';
+import authService from '../../../services/authService';
+import { Row } from '../../common/Table';
 
 interface ActivationPageProps
     extends RouteComponentProps<any>,
@@ -67,14 +69,14 @@ export default class ActivationPage extends React.Component<
 
         return (
             <div className="padding30 flex-grid">
-                <div className="row cell-auto-size">
+                <Row cellAutoSize>
                     <div className="cell">
                         <h1>Активация аккаунта</h1>
                         <br />
                     </div>
-                </div>
+                </Row>
 
-                <div className="row cell-auto-size">
+                <Row cellAutoSize>
                     <div className="cell">
                         {this.state.activationData.message && (
                             <button className={alertClass} disabled={true}>
@@ -82,16 +84,16 @@ export default class ActivationPage extends React.Component<
                             </button>
                         )}
                     </div>
-                </div>
+                </Row>
                 <hr />
 
-                <div className="cell cell-auto-size">
-                    <div className="row cell">
+                <Row cellAutoSize>
+                    <div className="cell">
                         <p>
                             Перейти на главную: <Link to="/">Главная</Link>
                         </p>
                     </div>
-                </div>
+                </Row>
             </div>
         );
     }

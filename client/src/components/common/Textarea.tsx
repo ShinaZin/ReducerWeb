@@ -1,9 +1,10 @@
 import * as React from 'react';
 
-import { OptionsParams } from './Options';
-import Reducer from './reducerClasses/Reducer';
-import { getFishText } from '../helpers/fishtextHelper';
-import { colors } from '../helpers/constants';
+import { colors } from '../../helpers/constants';
+import { getFishText } from '../../helpers/fishtextHelper';
+import { OptionsParams } from '../Options';
+import Reducer from '../reducerClasses/Reducer';
+import { Row } from './Table';
 
 interface Props {}
 interface States {
@@ -37,7 +38,7 @@ export default class TextBox extends React.Component<Props, States> {
                     onChange={this.handleChange}
                 />
 
-                <div className="row cell-auto-size">
+                <Row cellAutoSize>
                     <input
                         type="button"
                         className={
@@ -58,7 +59,7 @@ export default class TextBox extends React.Component<Props, States> {
                         value="Пример"
                         onClick={this.handleClickExample}
                     />
-                </div>
+                </Row>
             </div>
         );
     }

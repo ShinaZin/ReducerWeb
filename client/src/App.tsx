@@ -8,7 +8,7 @@ import * as React from 'react';
 import { Route, Switch } from 'react-router';
 
 import Header from './components/Header';
-import ActivationPage from './components/pages/auth/ActivationPage';
+import ActivationPageAsync from './components/pages/auth/ActivationPageAsync';
 import MainPageAsync from './components/pages/MainPageAsync';
 import SettingsPageAsync from './components/pages/SettingsPageAsync';
 
@@ -25,7 +25,7 @@ export default class App extends React.Component {
                         <Route
                             path="/activate/:token"
                             component={(props: any) => (
-                                <ActivationPage {...props} />
+                                <ActivationPageAsync {...props} />
                             )}
                         />
                     </Switch>
