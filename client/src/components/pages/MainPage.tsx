@@ -1,12 +1,35 @@
 import * as React from 'react';
+
+import dataService from '../../services/dataService';
 import Options, { OptionsParams } from '../Options';
 import TextBox from '../Textarea';
+import { OPTIONS_DEFAULT } from '../../helpers/constants';
 
-export default class MainPage extends React.Component {
+interface MainPageState {
+    options: OptionsParams;
+}
+
+export default class MainPage extends React.Component<{}, MainPageState> {
     private textbox: TextBox;
+
+    constructor(props: any) {
+        super(props);
+        this.state = { options: OPTIONS_DEFAULT };
+    }
+
     handleOptionsChange = (op: OptionsParams) => {
         this.textbox.setState({ optionsParams: op });
     };
+
+    async componentDidMount() {
+        const data = (await dataService.getSettings()) as any[]; //isLoggedIn
+        if (!data) {
+            return;
+        }
+        const [settings] = data;
+        const { dictionary, options } = settings || this.state;
+        this.setState({ options });
+    }
 
     render() {
         return (
@@ -16,7 +39,7 @@ export default class MainPage extends React.Component {
                         this.textbox = tb as TextBox;
                     }}
                 />
-                <Options onChange={this.handleOptionsChange} />
+                <Options onChange={this.handleOptionsChange} defaultValues={this.state.options} />
             </div>
         );
     }

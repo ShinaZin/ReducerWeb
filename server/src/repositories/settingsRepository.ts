@@ -1,65 +1,41 @@
-import pathHelper from '../helpers/pathHelper';
-import * as fs from 'fs-extra';
-import * as _ from 'lodash';
+import db from '../database/database';
+import { MongooseDocument } from 'mongoose';
 
-export default {
-    saveSettings,
-    getSettings,
-    getCurrentUser
-};
-
-const dataPath = pathHelper.getLocalRelative('data.json');
-const initDataPath = pathHelper.getDataRelative('data.json');
-let dataCache = null;
-
-function getData(): {items: any} {
-    if (!dataCache) {
-        if (fs.existsSync(dataPath)) {
-            dataCache = fs.readJsonSync(dataPath);
-        } else {
-            dataCache = fs.readJsonSync(initDataPath);
-        }
+export namespace settingsRepository {
+    export async function getSettings(userId) {
+        const { Settings } = db.models;
+        const query = {
+            userId
+        };
+        const settings = await Settings.find(query);
+        return settings.map(item =>
+            mapSettings(item)
+        );
     }
 
-    return dataCache;
-}
-
-function saveData() {
-    fs.writeJSONSync(dataPath, dataCache);
-}
-
-function getCurrentUser(): any {
-    if (!dataCache) {
-        if (fs.existsSync(dataPath)) {
-            dataCache = fs.readJsonSync(dataPath);
-        } else {
-            dataCache = fs.readJsonSync(initDataPath);
-        }
+    export async function getSettingsById(id: number) {
+        const { Settings } = db.models;
+        const settings = await Settings.findById(id);
+        return mapSettings(settings);
     }
 
-    return dataCache;
+    export async function createOrUpdateSettings(userId, settingsData) {
+        const { Settings } = db.models;
+        const settings = await Settings.findOne({ userId: userId });
+        let result = null;
+        if (!settings) {
+            settingsData.userId = userId;
+            result = await Settings.create(settingsData);
+        } else {
+            const newSettings = Object.assign(settings, settingsData); 
+            result = await newSettings.save();
+        }
+        return mapSettings(result);
+    }
 }
 
-function getSettings() {
-    let data = getData();
-
-    return data.items;
-}
-
-function saveSettings(settings) {
-    let data = getData();
-
-    let maxId = _.max<number>(data.items.map(x => x.id));
-
-    settings  = {
-        id: maxId ? maxId + 1 : 1,
-        ...settings
-    };
-
-    data.items.push(settings);
-
-    saveData();
-
+function mapSettings(settings) {
+    settings._doc.id = settings._id;
     return settings;
 }
 

@@ -11,8 +11,8 @@ export interface UserData {
     profile: any;
 }
 
-function getSettings(userToken?: string) {
-    return httpHelper.get('/api/settings', userToken);
+function getSettings() {
+    return httpHelper.get('/api/settings');
 }
 
 function saveSettings(settings: any) {

@@ -1,11 +1,12 @@
 import * as mongoose from 'mongoose';
-import * as _ from 'lodash';
+
 import config from '../config';
 import logger from '../logger';
 
 const db = null;
 const models = {
   User: null,
+  Settings: null
 };
 
 export default {
@@ -29,8 +30,7 @@ async function init() {
 
   //init models
   for (const modelName of Object.keys(models)) {
-    const model = require(`./models/${_.lowerCase(modelName)}`);
-
+    const model = require(`./models/${modelName.toLowerCase()}`);
     models[modelName] = model;
   }
 }
