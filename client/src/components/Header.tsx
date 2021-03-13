@@ -41,7 +41,6 @@ export default class Header extends React.Component<{}, HeaderState> {
             <header className="app-bar darcula" data-role="appbar">
                 <Link to="/" className="app-bar-element branding">
                     REDUCER
-                    {/* <img src={logo} alt="Logo" height="25%" width="25%" /> */}
                 </Link>
                 <span className="app-bar-divider" />
                 {isLoggedIn ? (
